@@ -16,22 +16,10 @@ import com.google.gson.reflect.TypeToken
 
 class LocationRepo(private val context: Context) {
 
-    private val fusedLocation = LocationServices.getFusedLocationProviderClient(context)
     var sharedPreferences = context.getSharedPreferences("save_list",Context.MODE_PRIVATE)
     val KEY_CONST = "profile_settings_list"
 
     var profileSettingArray = MutableLiveData<List<ProfileSetting>>()
-
-
-    private val coordinates = MutableLiveData<Coordinates>()
-
-    @SuppressLint("MissingPermission")
-    fun getCurrentLocation(): MutableLiveData<Coordinates>{
-        fusedLocation.lastLocation.addOnSuccessListener {
-            coordinates.value = Coordinates(it.latitude.toString(),it.longitude.toString())
-        }
-        return coordinates
-    }
 
     fun addProfileSettingList(profileSetting: ProfileSetting){
         val list = profileSettingArray.value?.toMutableList()?: mutableListOf()

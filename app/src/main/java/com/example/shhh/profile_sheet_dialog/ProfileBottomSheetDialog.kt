@@ -18,7 +18,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileBottomSheetDialog : BottomSheetDialogFragment() {
 
-    lateinit var binding: BottomSheetAddProfileSettingsBinding
+    lateinit var latitude:String
+    lateinit var longitude:String
+    private lateinit var binding: BottomSheetAddProfileSettingsBinding
     lateinit var audioManger: AudioManager
     lateinit var soundProfile: String
     private val viewModel: LocationViewModel by viewModel()
@@ -55,13 +57,12 @@ class ProfileBottomSheetDialog : BottomSheetDialogFragment() {
             }
         }
 
-        var latitude= "null"
         viewModel.liveLatitude.observe(this) {
             binding.latitudeTxt.text = it
             println("live latitude in bottomSheetDialog ---> $it")
             latitude = it
         }
-        var longitude="null"
+
         viewModel.liveLongitude.observe(this) {
             binding.longitudeTxt.text = it
             println("live longitude in bottomSheetDialog ---> $it")

@@ -2,7 +2,7 @@ package com.example.shhh
 
 import android.content.Context
 import android.location.Geocoder
-import android.location.LocationManager
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.shhh.project_data_models.Coordinates
@@ -13,6 +13,7 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
 
 //    val mLocation:LiveData<Coordinates> = locationRepo.getCurrentLocation()
 
+    val liveCoordinates: LiveData<Coordinates> = liveLocationManager.coordinates
     val liveLatitude: LiveData<String> = liveLocationManager.latitude
     val liveLongitude: LiveData<String> = liveLocationManager.longitude
 
@@ -32,18 +33,34 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
 
     fun getAddress(context:Context): String {
         val geocoder = Geocoder(context, Locale.getDefault())
-        val address = geocoder.getFromLocation(liveLatitude.value!!.toDouble(),liveLongitude.value!!.toDouble(),1)
-        return address!!.get(0).getAddressLine(0).toString()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val address = geocoder.getFromLocation(
+                liveLocationManager.latitude.value!!.toDouble(),
+                liveLocationManager.longitude.value!!.toDouble(),
+                1
+            ) {
+                it[0].subAdminArea.toString()
+            }
+            return address.toString()
+        } else {
+            val address = geocoder.getFromLocation(
+                liveLocationManager.latitude.value!!.toDouble(),
+                liveLocationManager.longitude.value!!.toDouble(),
+                1)
+            return address!!.get(0).getAddressLine(0).toString()
+        }
+
     }
 
-    val liveLocation = liveLocationManager.startLocationUpdates()
+    fun startLiveLocation(){ liveLocationManager.startLocationUpdates() }
 
     fun stopLocation(){
         liveLocationManager.stopLiveLocationUpdates()
     }
 
-    fun changeProfileOnLocationUpdate(coordinates: Coordinates,soundProfile: String){
-        liveLocationManager.compareLocation(coordinates,soundProfile)
+    fun changeProfileOnLocationUpdate(coordinate,soundProfile){
+
+        liveLocationManager.compareLocation(coordinate,soundProfile)
     }
 
     override fun onCleared() {

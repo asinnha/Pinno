@@ -1,7 +1,10 @@
 package com.example.shhh
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shhh.profile_sheet_dialog.ProfileBottomSheetDialog
 import com.example.shhh.databinding.ActivityMainBinding
@@ -10,6 +13,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +40,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.loadList()
-        viewModel.liveLocation
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION),
+                1
+            )
+            return
+        }
+        viewModel.startLiveLocation()
 
         viewModel.profileSettingArray.observe(this){
             var count = 0
@@ -74,6 +91,23 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.saveList()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(requestCode == 1){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                viewModel.startLiveLocation()
+            }else{
+                ToastFactory().toast(this,"Permission are denied")
+            }
+        }
+
     }
 
 }
