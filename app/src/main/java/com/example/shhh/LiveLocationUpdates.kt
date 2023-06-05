@@ -6,6 +6,7 @@ import android.media.AudioManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.example.shhh.project_data_models.Coordinates
+import com.example.shhh.project_data_models.ProfileSetting
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -35,6 +36,7 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
                     latitude.value = location.latitude.toString()
                     longitude.value = location.longitude.toString()
                     coordinates.value = Coordinates(latitude.value,longitude.value)
+                    compareLocation(locationRepo.profileSettingArray)
                 }
             }
         }
@@ -52,19 +54,34 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
         fusedLocation.removeLocationUpdates(locationCallback)
     }
 
-    fun compareLocation(coordinate: Coordinates, soundProfile: String){
+    fun compareLocation(list: MutableLiveData<List<ProfileSetting>>){
 
-        if( latitude.value == coordinate.latitude && longitude.value == coordinate.longitude){
-            when(soundProfile){
-                MainActivity.RINGER_CONST -> audioManger.ringerMode = AudioManager.RINGER_MODE_NORMAL
+        val mList: List<ProfileSetting>? = list.value
 
-                MainActivity.VIBRATE_CONST -> audioManger.ringerMode = AudioManager.RINGER_MODE_VIBRATE
+        mList?.let{
+            it.forEach { it1 ->
+                if(it1.switch == 1 && it1.soundProfile!=null &&
+                        it1.coordinates?.latitude == latitude.value &&
+                        it1.coordinates?.longitude == longitude.value)
+                {
+                    when(it1.soundProfile){
 
-                MainActivity.SILENT_CONST -> audioManger.ringerMode = AudioManager.RINGER_MODE_SILENT
+                        MainActivity.RINGER_CONST -> audioManger.ringerMode = AudioManager.RINGER_MODE_NORMAL
 
-                else -> ToastFactory().toast(context,"null sound profile status")
+                        MainActivity.VIBRATE_CONST -> audioManger.ringerMode = AudioManager.RINGER_MODE_VIBRATE
+
+                        MainActivity.SILENT_CONST -> audioManger.ringerMode = AudioManager.RINGER_MODE_SILENT
+
+                        else -> ToastFactory().toast(context,"null sound profile status")
+                    }
+                }
             }
         }
+
+
+//        if( latitude.value == list.coordinate.latitude && longitude.value == coordinate.longitude){
+//
+//        }
 
     }
 

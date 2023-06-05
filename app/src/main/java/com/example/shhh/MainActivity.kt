@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var koinContainer: KoinApplication
     lateinit var binding: ActivityMainBinding
-    private lateinit var locationCallback: LocationCallback
     private val viewModel: LocationViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

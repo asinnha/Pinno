@@ -21,7 +21,6 @@ class ProfileBottomSheetDialog : BottomSheetDialogFragment() {
     lateinit var latitude:String
     lateinit var longitude:String
     private lateinit var binding: BottomSheetAddProfileSettingsBinding
-    lateinit var audioManger: AudioManager
     lateinit var soundProfile: String
     private val viewModel: LocationViewModel by viewModel()
 
@@ -68,6 +67,8 @@ class ProfileBottomSheetDialog : BottomSheetDialogFragment() {
             println("live longitude in bottomSheetDialog ---> $it")
             longitude = it
         }
+
+
 
         address.text = viewModel.getAddress(requireContext())
 

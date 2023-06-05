@@ -13,7 +13,6 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
 
 //    val mLocation:LiveData<Coordinates> = locationRepo.getCurrentLocation()
 
-    val liveCoordinates: LiveData<Coordinates> = liveLocationManager.coordinates
     val liveLatitude: LiveData<String> = liveLocationManager.latitude
     val liveLongitude: LiveData<String> = liveLocationManager.longitude
 
@@ -31,7 +30,7 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
         locationRepo.saveList()
     }
 
-    fun getAddress(context:Context): String {
+    fun getAddress(context:Context): String? {
         val geocoder = Geocoder(context, Locale.getDefault())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val address = geocoder.getFromLocation(
@@ -39,7 +38,7 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
                 liveLocationManager.longitude.value!!.toDouble(),
                 1
             ) {
-                it[0].subAdminArea.toString()
+                it[0].subAdminArea
             }
             return address.toString()
         } else {
@@ -47,23 +46,17 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
                 liveLocationManager.latitude.value!!.toDouble(),
                 liveLocationManager.longitude.value!!.toDouble(),
                 1)
-            return address!!.get(0).getAddressLine(0).toString()
+            return address?.get(0)?.getAddressLine(0)
         }
 
     }
 
-    fun startLiveLocation(){ liveLocationManager.startLocationUpdates() }
+    fun startLiveLocation(){
+        liveLocationManager.startLocationUpdates()
+    }
 
     fun stopLocation(){
         liveLocationManager.stopLiveLocationUpdates()
     }
 
-    fun changeProfileOnLocationUpdate(coordinate,soundProfile){
-
-        liveLocationManager.compareLocation(coordinate,soundProfile)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-    }
 }
