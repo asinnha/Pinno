@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Shhh</string>
+    <string name="ringer">Ringer</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="silent_label">Silent</string>
+    <string name="hint_title">Enter the title</string>
+    <string name="profile_label">Profiles</string>
+</resources>
