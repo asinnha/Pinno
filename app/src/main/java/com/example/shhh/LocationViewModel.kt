@@ -13,12 +13,12 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
 
 //    val mLocation:LiveData<Coordinates> = locationRepo.getCurrentLocation()
 
-    var gpsStatus = liveLocationManager.gpsStatus
+    var gpsStatus = false
 
     val liveLatitude: LiveData<String> = liveLocationManager.latitude
     val liveLongitude: LiveData<String> = liveLocationManager.longitude
 
-    val profileSettingArray:LiveData<List<ProfileSetting>> = locationRepo.profileSettingArray
+    var profileSettingArray:LiveData<List<ProfileSetting>> = locationRepo.profileSettingArray
 
     fun addProfileSettingList(profileSetting: ProfileSetting){
         locationRepo.addProfileSettingList(profileSetting)
@@ -55,10 +55,12 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
 
     fun startLiveLocation(){
         liveLocationManager.startLocationUpdates()
+        gpsStatus = true
     }
 
     fun stopLocation(){
         liveLocationManager.stopLiveLocationUpdates()
+        gpsStatus = false
     }
 
 }

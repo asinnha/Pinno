@@ -12,6 +12,7 @@ import com.example.shhh.project_data_models.ProfileSetting
 import com.example.shhh.LocationViewModel
 import com.example.shhh.MainActivity
 import com.example.shhh.R
+import com.example.shhh.ToastFactory
 import com.example.shhh.databinding.BottomSheetAddProfileSettingsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -57,13 +58,11 @@ class ProfileBottomSheetDialog : BottomSheetDialogFragment() {
         }
 
         viewModel.liveLatitude.observe(this) {
-            binding.latitudeTxt.text = it
             println("live latitude in bottomSheetDialog ---> $it")
             latitude = it
         }
 
         viewModel.liveLongitude.observe(this) {
-            binding.longitudeTxt.text = it
             println("live longitude in bottomSheetDialog ---> $it")
             longitude = it
         }
@@ -73,13 +72,20 @@ class ProfileBottomSheetDialog : BottomSheetDialogFragment() {
         address.text = viewModel.getAddress(requireContext())
 
         saveBtn.setOnClickListener {
-            val profileSetting = ProfileSetting(
-                Coordinates(latitude, longitude),
-                title.text.toString(),
-                soundProfile,
-            1)
-            viewModel.addProfileSettingList(profileSetting)
-            this.dismiss()
+//            if(soundProfile.isEmpty() || title.text.toString().isEmpty())
+
+                val profileSetting = ProfileSetting(
+                    Coordinates(latitude, longitude),
+                    title.text.toString(),
+                    soundProfile,
+                    1
+                )
+                viewModel.addProfileSettingList(profileSetting)
+                this.dismiss()
+//            }
+//            else{
+//                context?.let { it1 -> ToastFactory().toast(it1,"Cannot leave fields empty") }
+//            }
         }
         discardBtn.setOnClickListener {
             this.dismiss()

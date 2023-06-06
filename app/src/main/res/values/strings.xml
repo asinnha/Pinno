@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Shhh</string>
+    <string name="app_name">Pinno</string>
     <string name="ringer">Ringer</string>
     <string name="vibrate">Vibrate</string>
     <string name="silent_label">Silent</string>

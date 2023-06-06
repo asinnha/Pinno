@@ -25,6 +25,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import java.util.Collections
 import kotlin.system.exitProcess
 
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        koinContainer = startKoin {
+        startKoin {
             androidContext(this@MainActivity)
             modules(appModule)
         }
@@ -123,14 +124,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        koinContainer.close()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         viewModel.saveList()
+        stopKoin()
     }
 
     override fun onRequestPermissionsResult(

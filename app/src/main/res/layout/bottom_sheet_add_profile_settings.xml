@@ -27,59 +27,23 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/titleEdt"
+            android:inputType="textAutoComplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/labelCoordinates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12sp"
-        android:layout_gravity="center"
-        android:text="Coordinates"
-        android:textSize="28sp"/>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_weight="1"
-            android:id="@+id/latitudeTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16sp"
-            android:layout_marginEnd="16sp"
-            android:layout_marginTop="8sp"
-            android:hint="latitude"
-            android:textAlignment="center"/>
-
-        <TextView
-            android:layout_weight="1"
-            android:id="@+id/longitudeTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16sp"
-            android:layout_marginEnd="16sp"
-            android:layout_marginTop="8sp"
-            android:hint="longitude"
-            android:textAlignment="center"/>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <TextView
         android:id="@+id/addressTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16sp"
+        android:layout_marginTop="12sp"
         android:layout_marginEnd="16sp"
-        android:layout_marginTop="8sp"
         android:hint="address"
-        android:textAlignment="center"
-        android:textSize="24sp"/>
+        android:textAlignment="viewStart"
+        android:textSize="24sp" />
 
 
     <RadioGroup
@@ -140,7 +104,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveBtn"
-            style="@style/MaterialAlertDialog.Material3"
+            style="@style/Widget.Material3.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

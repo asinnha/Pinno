@@ -15,7 +15,7 @@
         <com.google.android.material.button.MaterialButton
             android:contentDescription="Icon Button"
             android:id="@+id/iconBtn"
-            app:iconSize="22sp"
+            app:iconSize="24sp"
             style="?attr/materialIconButtonFilledTonalStyle"
             android:layout_width="50dp"
             android:layout_height="50dp"

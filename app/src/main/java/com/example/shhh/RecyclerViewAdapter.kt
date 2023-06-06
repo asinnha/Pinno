@@ -30,7 +30,16 @@ class RecyclerViewAdapter(private val profileSettingArray: List<ProfileSetting>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.profileTitle.text = profileSettingArray[position].title
-        holder.profileImage.setIconResource(R.drawable.baseline_work_24)
+        val icon = when(profileSettingArray[position].soundProfile){
+            MainActivity.RINGER_CONST-> R.drawable.ic_ringer
+
+            MainActivity.SILENT_CONST-> R.drawable.ic_silent
+
+            MainActivity.VIBRATE_CONST-> R.drawable.ic_vibrate
+
+            else -> R.drawable.baseline_work_24
+        }
+        holder.profileImage.setIconResource(icon)
         if(profileSettingArray[position].switch == 1){
             holder.profileSwitch.backgroundTintList = ContextCompat.getColorStateList(context,R.color.green)
         }else{
