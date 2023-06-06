@@ -147,10 +147,9 @@ class MainActivity : AppCompatActivity() {
                 ToastFactory().toast(this,"Permission are denied")
             }
         }
-
     }
 
-    val itemTouchListener = object: ItemTouchHelper.Callback(){
+    private val itemTouchListener = object: ItemTouchHelper.Callback(){
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
@@ -182,14 +181,14 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    val itemTouchHelper = ItemTouchHelper(itemTouchListener)
+    private val itemTouchHelper = ItemTouchHelper(itemTouchListener)
 
-    fun isGPSEnabled(context: Context): Boolean {
+    private fun isGPSEnabled(context: Context): Boolean {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
-    fun promptToEnableGPS(context: Context) {
+    private fun promptToEnableGPS(context: Context) {
         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
