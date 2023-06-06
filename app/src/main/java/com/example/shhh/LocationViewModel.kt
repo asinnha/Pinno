@@ -13,6 +13,8 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
 
 //    val mLocation:LiveData<Coordinates> = locationRepo.getCurrentLocation()
 
+    var gpsStatus = liveLocationManager.gpsStatus
+
     val liveLatitude: LiveData<String> = liveLocationManager.latitude
     val liveLongitude: LiveData<String> = liveLocationManager.longitude
 

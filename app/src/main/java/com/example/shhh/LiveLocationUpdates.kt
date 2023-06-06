@@ -21,6 +21,7 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
     var latitude = MutableLiveData<String>()
     var longitude = MutableLiveData<String>()
     var coordinates = MutableLiveData<Coordinates>()
+    var gpsStatus: Boolean = false
     private val fusedLocation = LocationServices.getFusedLocationProviderClient(context)
     private val audioManger = ContextCompat.getSystemService(context,AudioManager::class.java) as AudioManager
 
@@ -42,7 +43,10 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
         }
 
         fusedLocation.requestLocationUpdates(locationRequest,locationCallback,null)
-            .addOnSuccessListener { ToastFactory().toast(context,"the location has started") }
+            .addOnSuccessListener {
+                gpsStatus = true
+                ToastFactory().toast(context,"the location has started")
+            }
             .addOnFailureListener {
                 ToastFactory().toast(context,"the location failed")
                 println(it.message)
@@ -51,7 +55,10 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
     }
 
     fun stopLiveLocationUpdates(){
-        fusedLocation.removeLocationUpdates(locationCallback)
+        fusedLocation.removeLocationUpdates(locationCallback).
+                addOnSuccessListener {
+                    gpsStatus = false
+                }
     }
 
     fun compareLocation(list: MutableLiveData<List<ProfileSetting>>){
