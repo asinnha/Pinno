@@ -26,8 +26,8 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
     private val locationCallback = object: LocationCallback(){
         override fun onLocationResult(result: LocationResult) {
             for(location in result.locations){
-                latitude.value = (location.latitude * 1000).toInt().toString()
-                longitude.value = (location.longitude * 1000).toInt().toString()
+                latitude.value = (location.latitude * 100000).toInt().toString()
+                longitude.value = (location.longitude * 100000).toInt().toString()
                 coordinates.value = Coordinates(latitude.value,longitude.value)
                 compareLocation(locationRepo.profileSettingArray)
                 println(coordinates.value)

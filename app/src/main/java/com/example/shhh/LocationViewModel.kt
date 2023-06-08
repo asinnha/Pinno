@@ -32,8 +32,8 @@ class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager:
 
     fun getAddress(context:Context): String? {
 
-        val local_latitude = liveLocationManager.latitude.value!!.toDouble().div(1000)
-        val local_longitude = liveLocationManager.longitude.value!!.toDouble().div(1000)
+        val local_latitude = liveLocationManager.latitude.value!!.toDouble().div(100000)
+        val local_longitude = liveLocationManager.longitude.value!!.toDouble().div(100000)
 
         val geocoder = Geocoder(context, Locale.getDefault())
         val address = geocoder.getFromLocation(
