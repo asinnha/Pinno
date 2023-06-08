@@ -11,8 +11,6 @@ import java.util.Locale
 
 class LocationViewModel(val locationRepo: LocationRepo, val liveLocationManager: LiveLocationUpdates): ViewModel() {
 
-//    val mLocation:LiveData<Coordinates> = locationRepo.getCurrentLocation()
-
     var gpsStatus = false
 
     val liveLatitude: LiveData<String> = liveLocationManager.latitude
