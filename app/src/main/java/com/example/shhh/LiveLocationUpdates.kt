@@ -26,10 +26,11 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
     private val locationCallback = object: LocationCallback(){
         override fun onLocationResult(result: LocationResult) {
             for(location in result.locations){
-                latitude.value = location.latitude.toString()
-                longitude.value = location.longitude.toString()
+                latitude.value = (location.latitude * 1000).toInt().toString()
+                longitude.value = (location.longitude * 1000).toInt().toString()
                 coordinates.value = Coordinates(latitude.value,longitude.value)
                 compareLocation(locationRepo.profileSettingArray)
+                println(coordinates.value)
             }
         }
     }
@@ -58,8 +59,7 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
 
         val mList: List<ProfileSetting>? = list.value
 
-        mList?.let{
-            it.forEach { it1 ->
+        mList?.forEach { it1 ->
                 if(it1.switch == 1 && it1.soundProfile!=null &&
                         it1.coordinates?.latitude == latitude.value &&
                         it1.coordinates?.longitude == longitude.value)
@@ -76,7 +76,7 @@ class LiveLocationUpdates(val context: Context,val locationRepo: LocationRepo) {
                     }
                 }
             }
-        }
+
 
     }
 

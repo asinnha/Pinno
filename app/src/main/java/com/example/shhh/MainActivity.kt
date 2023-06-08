@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                 profileDetails.show(supportFragmentManager, "Profile details")
             }else{
                 viewModel.startLiveLocation()
+                ToastFactory().toast(this,"Tap the Button Again")
             }
         }
 
