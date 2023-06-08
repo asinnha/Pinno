@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var mAdapter: RecyclerViewAdapter
     lateinit var rv: RecyclerView
 
-    lateinit var koinContainer: KoinApplication
     lateinit var binding: ActivityMainBinding
     private val viewModel: LocationViewModel by viewModel()
 
@@ -105,7 +104,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.addProfileItem.setOnClickListener {
-            ToastFactory().toast(this,"icon clicked")
             if(viewModel.gpsStatus){
                 val profileDetails = ProfileBottomSheetDialog()
                 profileDetails.show(supportFragmentManager, "Profile details")
